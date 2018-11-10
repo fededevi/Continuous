@@ -1,3 +1,4 @@
+package Continuous;
 
 public class ContinuousSpace2D {
 	
