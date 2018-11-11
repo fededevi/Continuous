@@ -6,14 +6,18 @@ import javax.swing.JFrame;
 
 public class Window extends JFrame {
 
-	int WIDTH = 512;
-	int HEIGHT = 512;
+	int WIDTH = 1024;
+	int HEIGHT = 1024;
+	
 	public Window(String string) {
 		super(string);
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		FixedSizeCanvas panel = new FixedSizeCanvas(WIDTH,HEIGHT);
-		panel.setPreferredSize(new Dimension(WIDTH *2, HEIGHT*2));
+		
+		//FixedSizeCanvas panel = new FixedSizeCanvas(WIDTH,HEIGHT);
+		SolarSystem panel = new SolarSystem();
+		
+		panel.setPreferredSize(new Dimension(WIDTH , HEIGHT));
 		getContentPane().add(panel, BorderLayout.CENTER);
 	      //Display the window.
 		setLocationRelativeTo(null);
