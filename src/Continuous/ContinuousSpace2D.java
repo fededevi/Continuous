@@ -51,4 +51,34 @@ public class ContinuousSpace2D {
 		data[i1*x+j1] =value;
 	}
 
+	void sumCell( int i, int j, int value) {
+		int i1 = i;
+		int j1 = j;
+
+		if (i1 < 0)
+			i1 = x + i1;
+
+		if (i1 >= x)
+			i1 = i1 - x;
+
+		if (j1 < 0)
+			j1 = y + j1;
+
+		if (j1 >= y)
+			j1 = j1 - y;
+
+		data[i1*x+j1] += value;
+		
+		if (data[i1*x+j1] < 0)
+			data[i1*x+j1] = 0;
+	}
+
+
+	
+	public void clear() {
+		for (int i = 0; i < data.length; i++) {
+			data[i] = 0;
+		}
+	}
+
 }

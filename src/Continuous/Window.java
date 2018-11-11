@@ -6,8 +6,8 @@ import javax.swing.JFrame;
 
 public class Window extends JFrame {
 
-	int WIDTH = 256;
-	int HEIGHT = 256;
+	int WIDTH = 512;
+	int HEIGHT = 512;
 	public Window(String string) {
 		super(string);
 		
