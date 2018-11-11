@@ -31,7 +31,7 @@ public class FixedSizeCanvas extends Component {
 		for (int x = 0; x < this.x; x++) {
 			for (int y = 0; y < this.y; y++) {
 				if (r.nextInt(100) > 50) {
-					buffer1.setCell(x, y, (byte) 100);
+					buffer1.setCell(x, y, (byte) 1);
 					// buffer2.setCell(x, y, (byte) 1);
 				}
 			}
@@ -45,19 +45,14 @@ public class FixedSizeCanvas extends Component {
 
 		for (int x = 0; x < this.x; x++) {
 			for (int y = 0; y < this.y; y++) {
-				int val = buffer1.getCell(x, y) * 2;
+				int val = 255; //buffer1.getCell(x, y) * 2;
+				if (buffer1.getCell(x, y) > 0)
+				val = 0;
 				
 				img.setRGB(x*2, y*2, (val << 24) | (val << 16) | (val << 8) | val);
 				img.setRGB(x*2+1, y*2+1, (val << 24) | (val << 16) | (val << 8) | val);
 				img.setRGB(x*2, y*2+1, (val << 24) | (val << 16) | (val << 8) | val);
 				img.setRGB(x*2+1, y*2, (val << 24) | (val << 16) | (val << 8) | val);
-
-				// int a = (int)(Math.random()*256); //alpha
-				// int r = (int)(Math.random()*256); //red
-				// int g = (int)(Math.random()*256); //green
-				// int b = (int)(Math.random()*256); //blue
-				// int p = (a<<24) | (r<<16) | (g<<8) | b; //pixel
-
 			}
 		}
 
@@ -98,20 +93,20 @@ public class FixedSizeCanvas extends Component {
 				buffer2.setCell(i, j, buffer1.getCell(i, j));
 				int count = countBuffer.getCell(i, j);
 
-				if (buffer1.getCell(i, j) > 128) {
+				if (buffer1.getCell(i, j) > 0) {
 					// LIVE CELL
-					if (count < 64) // DIE BY UNDERPOPULATION
+					if (count < 2) // DIE BY UNDERPOPULATION
 					{
-						buffer2.sumCell(i, j, -10);
-					} else if (count >= 160 ) // DIE BY OVERPOPULATION
+						buffer2.setCell(i, j, (byte) 0);
+					} else if (count > 3 ) // DIE BY OVERPOPULATION
 					{
-						buffer2.sumCell(i, j,-10);
+						buffer2.setCell(i, j, (byte)0);
 					}
 				} else {
 					// EMPTY SPACE
-					if (count < 160 && count >= 64) // BIRTH
+					if (count == 3) // BIRTH
 					{
-						buffer2.sumCell(i, j, +1);
+						buffer2.setCell(i, j,  (byte)1);
 					}
 				}
 			}

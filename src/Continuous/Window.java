@@ -13,7 +13,7 @@ public class Window extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		FixedSizeCanvas panel = new FixedSizeCanvas(WIDTH,HEIGHT);
-		panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		panel.setPreferredSize(new Dimension(WIDTH *2, HEIGHT*2));
 		getContentPane().add(panel, BorderLayout.CENTER);
 	      //Display the window.
 		setLocationRelativeTo(null);
