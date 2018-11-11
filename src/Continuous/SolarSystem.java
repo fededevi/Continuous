@@ -91,7 +91,7 @@ public class SolarSystem extends Component {
 		}
 		
 		for (Planet planet1 : planets) {
-			Vector2D acceleration = new Vector2D(0,0);
+			Vector2D force = new Vector2D(0,0);
 			if (planet1 == sun)
 				continue;
 			
@@ -100,18 +100,15 @@ public class SolarSystem extends Component {
 					continue;
 				Vector2D direction = planet2.position.sub(planet1.position);
 				Vector2D normalized = direction.normalized();
-				double squareRadius = direction.squareRadius();
+				double squareRadius = direction.squareRadius()*1.0;
 				double gravityMagnitude = (planet1.mass + planet2.mass) / squareRadius;
 				
-				if (gravityMagnitude > 10)
-					gravityMagnitude = 10;
-				
-				Vector2D gravity = normalized.mul(gravityMagnitude * 100);
-				acceleration.sumSelf(gravity.mul(1.0/planet1.mass));
+				Vector2D gravity = normalized.mul(gravityMagnitude * 1000);
+				force.sumSelf(gravity);
 			}
 			
-			planet1.acceleration = acceleration;			
-			planet1.step(seconds*1.0);
+			planet1.force = force;			
+			planet1.step(seconds*50.0);
 		}
 		
 		repaint();		

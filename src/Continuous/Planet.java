@@ -12,7 +12,7 @@ public class Planet {
 	
 	Vector2D position = new Vector2D();
 	Vector2D velocity = new Vector2D();
-	Vector2D acceleration = new Vector2D();
+	Vector2D force = new Vector2D();
 	
 	public Planet()
 	{
@@ -20,11 +20,15 @@ public class Planet {
 		mass = radius * (rand.nextFloat()+1.0);
 
 		position = new Vector2D(rand.nextFloat() * 512 +256,rand.nextFloat() * 512 + 256);
+		position = position.mul(100);
 		
-		//Vector2D centerDirection = new Vector2D(512,512).sub(position);
-		//Vector2D centerOrbit = new Vector2D(centerDirection.y, -centerDirection.x);
-		Vector2D centerOrbit = new Vector2D(rand.nextDouble()-0.5,rand.nextDouble()-0.5);
-		velocity = centerOrbit.mul(200.30 );
+		Vector2D centerDirection = new Vector2D(512,512).sub(position);
+		Vector2D centerOrbit = new Vector2D(centerDirection.y, -centerDirection.x);
+		//centerOrbit = centerOrbit.normalized();
+		//centerOrbit.sumSelf(new Vector2D(rand.nextDouble()-0.5,rand.nextDouble()-0.5));
+		
+		//velocity = centerOrbit.mul(2.30 );
+		velocity=new Vector2D(rand.nextDouble()-0.5,rand.nextDouble()-0.5).mul(10);
 	}
 	
 	public Planet(Planet p1, Planet p2) {
@@ -35,18 +39,21 @@ public class Planet {
 	}
 
 	public void paint(Graphics2D g2) {
+		Vector2D drawPosition = position.mul(1.0/100);
+		
 		g2.setColor(Color.BLACK);
-		g2.drawOval((int)(position.x - radius ), (int)(position.y- radius ), (int)radius*2, (int)radius*2);
+		g2.drawOval((int)(drawPosition.x - radius ), (int)(drawPosition.y- radius ), (int)radius*2, (int)radius*2);
 		g2.setColor(Color.BLUE);
-		g2.drawLine((int)position.x, (int)position.y, (int)position.x + (int)velocity.x,(int) position.y+(int)velocity.y);
+		g2.drawLine((int)drawPosition.x, (int)drawPosition.y, (int)drawPosition.x + (int)velocity.x,(int) drawPosition.y+(int)velocity.y);
 		g2.setColor(Color.RED);
-		g2.drawLine((int)position.x, (int)position.y, (int)position.x + (int)acceleration.mul(10).x,(int) position.y+(int)acceleration.mul(10).y);
+		g2.drawLine((int)drawPosition.x, (int)drawPosition.y, (int)drawPosition.x + (int)force.mul(10).x,(int) drawPosition.y+(int)force.mul(10).y);
 		
 	}
 
 	public void step(double et) {
-		velocity.sumSelf(acceleration.mul(et));
+		velocity.sumSelf(force.mul(et).mul(1.0/mass));
 		position.sumSelf(velocity.mul(et));		
+		
 	}
 	
 }
